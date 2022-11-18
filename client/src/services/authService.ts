@@ -8,15 +8,25 @@ import API from "./api";
 const AuthService = {
   async login(credentials: LoginRequest) {
     const response = await API.post<AuthResponse>("/login", credentials);
-    API.defaults.headers["Authorization"] = `Bearer ${response.data.token}`;
+    setHeadersAndStorage(response.data);
     return response.data;
   },
   async register(credentials: RegisterRequest) {
     const response = await API.post<AuthResponse>("/register", credentials);
-    API.defaults.headers["Authorization"] = `Bearer ${response.data.token}`;
+    setHeadersAndStorage(response.data);
     return response.data;
   },
-  logout() {},
+  logout() {
+    API.defaults.headers["Authorization"] = "";
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  },
+};
+
+const setHeadersAndStorage = ({ user, token }: any) => {
+  API.defaults.headers["Authorization"] = `Bearer ${token}`;
+  localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("token", token);
 };
 
 export default AuthService;

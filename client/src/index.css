@@ -23,3 +23,67 @@ img {
   max-width: 100%;
   max-height: 100%;
 }
+
+/* Button */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-color: var(--purple);
+  border-radius: 8px;
+  background-color: var(--purple);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 300ms, color 300ms;
+}
+
+.btn:hover {
+  background-color: #fff;
+  color: var(--purple);
+}
+
+/* End Button */
+
+/* React Modal */
+
+.ReactModal__Overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+.ReactModal__Content {
+  position: static !important;
+  overflow: hidden !important;
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 !important;
+  /* inset: 0 !important; */
+  border: 0 !important;
+  border-radius: 12px !important;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+}
+
+.modal__header {
+  padding: 1rem;
+  background-color: var(--purple);
+  color: #fff;
+  text-align: center;
+}
+
+.modal__body {
+  padding: 1.5rem;
+}
+
+/* End React Modal */

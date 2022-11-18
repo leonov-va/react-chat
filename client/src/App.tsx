@@ -1,8 +1,35 @@
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faImage, faSmile } from "@fortawesome/free-regular-svg-icons";
+import {
+  faBell,
+  faCaretDown,
+  faEllipsisV,
+  faSignOutAlt,
+  faSpinner,
+  faTimes,
+  faTrash,
+  faUpload,
+  faUserPlus
+} from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import Chat from "./components/Chat/Chat";
 import PrivateRoute from "./hoc/PrivateRoute";
+
+library.add(
+  faSmile,
+  faImage,
+  faSpinner,
+  faEllipsisV,
+  faUserPlus,
+  faSignOutAlt,
+  faTrash,
+  faCaretDown,
+  faUpload,
+  faTimes,
+  faBell
+);
 
 function App() {
   return (
@@ -20,4 +47,3 @@ function App() {
 }
 
 export default App;
- 

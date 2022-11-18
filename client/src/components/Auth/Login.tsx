@@ -4,16 +4,20 @@ import { useAppDispatch } from "../../store";
 import { login } from "../../store/reducers/auth";
 import "./Auth.scss";
 import LoginImg from "../../assets/images/login.svg";
+import { Formik, Field, Form } from "formik";
+
+interface IValues {
+  email: string;
+  password: string;
+}
+
+const initialValues: IValues = { email: "", password: "" };
 
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const submitForm = async (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = ({ email, password }: IValues) => {
     dispatch(login({ email, password })).then(() => navigate("/"));
   };
 
@@ -25,27 +29,36 @@ const Login = () => {
         </div>
         <div className="auth__content">
           <h1 className="auth__title">Login</h1>
-          <form className="auth__form" onSubmit={submitForm}>
-            <label className="auth__item">
-              <span className="auth__subtitle">Email:</span>
-              <input
-                className="auth__input"
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </label>
-            <label className="auth__item">
-              <span className="auth__subtitle">Password:</span>
-              <input
-                className="auth__input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
-            <button className="auth__button">Login</button>
-          </form>
+          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+            <Form className="auth__form">
+              <div className="auth__item">
+                <label className="auth__subtitle" htmlFor="email">
+                  Email:
+                </label>
+                <Field
+                  id="email"
+                  className="auth__input"
+                  name="email"
+                  placeholder="Email"
+                />
+              </div>
+              <div className="auth__item">
+                <label className="auth__subtitle" htmlFor="password">
+                  Password:
+                </label>
+                <Field
+                  id="password"
+                  className="auth__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
+              </div>
+              <button className="auth__button" type="submit">
+                Login
+              </button>
+            </Form>
+          </Formik>
           <p className="auth__text">
             Don't have an account?{" "}
             <Link className="auth__link" to="/register">
