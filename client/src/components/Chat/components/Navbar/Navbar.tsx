@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import Modal from "react-modal";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import { logout } from "../../../../store/reducers/auth";
+import { logout, updateProfile } from "../../../../store/reducers/auth";
 import AccountForm, {
   IValues,
 } from "../../../Auth/components/AccountForm/AccountForm";
@@ -16,9 +16,16 @@ const Navbar = () => {
 
   const closeModal = () => setShowProfileModal(false);
 
-  const handleSubmit = (values: IValues) => {
-    console.log("values: ", values);
-    const formData = new FormData()
+  const handleSubmit = (values: any) => {
+    const formData = new FormData();
+
+    for (const key in values) {
+      if (values[key]) {
+        formData.append(key, values[key]);
+      }
+    }
+
+    dispatch(updateProfile(formData)).then(() => setShowProfileModal(false));
   };
 
   return (

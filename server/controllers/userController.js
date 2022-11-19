@@ -2,9 +2,18 @@ const User = require("../models").User;
 const sequelize = require("sequelize");
 
 exports.update = async (req, res) => {
+  if (req.file) {
+    req.body.avatar = req.file.filename;
+  }
+
+  if (typeof req.body.avatar !== "undefined" && req.body.avatar.length === 0)
+    delete req.body.avatar;
+
   try {
     const [rows, result] = await User.update(req.body, {
-      where: { id: req.user.id },
+      where: {
+        id: req.user.id,
+      },
       returning: true,
       individualHooks: true,
     });
@@ -14,8 +23,7 @@ exports.update = async (req, res) => {
     delete user.password;
 
     return res.send(user);
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
   }
-  return res.send("user controller");
 };

@@ -16,6 +16,18 @@ const AuthService = {
     setHeadersAndStorage(response.data);
     return response.data;
   },
+  async updateProfile(credentials: any) {
+    const config = {
+      headers: { "Content-Type": "application/x-www-form-urllencoded" },
+    };
+    const response = await API.post<AuthResponse>(
+      "/users/update",
+      credentials,
+      config
+    );
+    localStorage.setItem("user", JSON.stringify({...response.data}));
+    return response.data;
+  },
   logout() {
     API.defaults.headers["Authorization"] = "";
     localStorage.removeItem("user");

@@ -1,5 +1,11 @@
 import { Field, Form, Formik } from "formik";
-import { FC, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  FC,
+  useEffect,
+  useState,
+} from "react";
 import { useAppSelector } from "../../../../store";
 import "./AccountForm.scss";
 
@@ -14,6 +20,7 @@ export interface IValues {
   email: string;
   password: string;
   gender: string;
+  avatar?: File;
 }
 
 const AccountForm: FC<IAccountForm> = ({ type = "register", onSubmit }) => {
@@ -23,6 +30,7 @@ const AccountForm: FC<IAccountForm> = ({ type = "register", onSubmit }) => {
     email: "",
     password: "",
     gender: "",
+    avatar: null,
   });
   const user = useAppSelector((state) => state.auth.user);
 
@@ -44,65 +52,79 @@ const AccountForm: FC<IAccountForm> = ({ type = "register", onSubmit }) => {
       onSubmit={onSubmit}
       enableReinitialize
     >
-      <Form className="account-form">
-        <div className="account-form__item">
-          <label className="account-form__subtitle" htmlFor="firstName">
-            First name:
-          </label>
-          <Field
-            id="firstName"
-            className="account-form__input"
-            name="firstName"
-          />
-        </div>
-        <div className="account-form__item">
-          <label className="account-form__subtitle" htmlFor="lastName">
-            Last name:
-          </label>
-          <Field
-            id="lastName"
-            className="account-form__input"
-            name="lastName"
-          />
-        </div>
-        <div className="account-form__item">
-          <label className="account-form__subtitle" htmlFor="email">
-            Email:
-          </label>
-          <Field id="email" className="account-form__input" name="email" />
-        </div>
-        <div className="account-form__item">
-          <label className="account-form__subtitle" htmlFor="password">
-            Password:
-          </label>
-          <Field
-            id="password"
-            className="account-form__input"
-            name="password"
-            type="password"
-          />
-        </div>
-        <div className="account-form__item">
-          <label className="account-form__subtitle" htmlFor="gender">
-            Gender:
-          </label>
-          <Field
-            id="gender"
-            className="account-form__select"
-            as="select"
-            name="gender"
-          >
-            <option value="" disabled>
-              Select gender
-            </option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </Field>
-        </div>
-        <button className="account-form__button">
-          {type === "update" ? "Update" : "Register"}
-        </button>
-      </Form>
+      {({ setFieldValue }) => (
+        <Form className="account-form">
+          <div className="account-form__item">
+            <label className="account-form__subtitle" htmlFor="firstName">
+              First name:
+            </label>
+            <Field
+              id="firstName"
+              className="account-form__input"
+              name="firstName"
+            />
+          </div>
+          <div className="account-form__item">
+            <label className="account-form__subtitle" htmlFor="lastName">
+              Last name:
+            </label>
+            <Field
+              id="lastName"
+              className="account-form__input"
+              name="lastName"
+            />
+          </div>
+          <div className="account-form__item">
+            <label className="account-form__subtitle" htmlFor="email">
+              Email:
+            </label>
+            <Field id="email" className="account-form__input" name="email" />
+          </div>
+          <div className="account-form__item">
+            <label className="account-form__subtitle" htmlFor="password">
+              Password:
+            </label>
+            <Field
+              id="password"
+              className="account-form__input"
+              name="password"
+              type="password"
+            />
+          </div>
+          <div className="account-form__item">
+            <label className="account-form__subtitle" htmlFor="gender">
+              Gender:
+            </label>
+            <Field
+              id="gender"
+              className="account-form__select"
+              as="select"
+              name="gender"
+            >
+              <option value="" disabled>
+                Select gender
+              </option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </Field>
+          </div>
+          {type === "update" && (
+            <div className="account-form__item">
+              <Field
+                type="file"
+                name="avatar"
+                value=""
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setFieldValue("avatar", e.target.files[0])
+                }
+              />
+            </div>
+          )}
+          <button className="account-form__button">
+            {type === "update" ? "Update" : "Register"}
+          </button>
+        </Form>
+      )}
     </Formik>
   );
 };

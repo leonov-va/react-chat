@@ -10,7 +10,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   user: JSON.parse(localStorage.getItem("user")),
   token: localStorage.getItem("token"),
-  isAuth: !!localStorage.getItem('user'),
+  isAuth: !!localStorage.getItem("user"),
 };
 
 export type IUser = {
@@ -61,6 +61,9 @@ export const authSlice = createSlice({
       state.token = null;
       state.isAuth = false;
     });
+    builder.addCase(updateProfile.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
   },
 });
 
@@ -80,4 +83,9 @@ export const register = createAsyncThunk<AuthResponse, RegisterRequest>(
 
 export const logout = createAsyncThunk("auth/logout", async () =>
   AuthService.logout()
+);
+
+export const updateProfile = createAsyncThunk<any, any>(
+  "auth/updateProfile",
+  async (credentials) => await AuthService.updateProfile(credentials)
 );
