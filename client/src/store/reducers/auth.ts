@@ -73,12 +73,12 @@ export default authSlice.reducer;
 
 export const login = createAsyncThunk<AuthResponse, LoginRequest>(
   "auth/login",
-  async (credentials) => await AuthService.login(credentials)
+  async (credentials) => AuthService.login(credentials)
 );
 
 export const register = createAsyncThunk<AuthResponse, RegisterRequest>(
   "auth/register",
-  async (credentials) => await AuthService.register(credentials)
+  async (credentials) => AuthService.register(credentials)
 );
 
 export const logout = createAsyncThunk("auth/logout", async () =>
@@ -87,5 +87,5 @@ export const logout = createAsyncThunk("auth/logout", async () =>
 
 export const updateProfile = createAsyncThunk<any, any>(
   "auth/updateProfile",
-  async (credentials) => await AuthService.updateProfile(credentials)
+  async (credentials) => AuthService.updateProfile(credentials)
 );
