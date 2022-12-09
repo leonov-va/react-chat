@@ -1,5 +1,7 @@
-const { body } = require("express-validator");
+const { body } = require('express-validator')
 
 exports.rules = (() => {
-  return [body("email").isEmail()];
-})();
+    return [
+        body('email').isEmail()
+    ]
+})()    
